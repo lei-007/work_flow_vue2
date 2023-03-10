@@ -10,14 +10,14 @@
         <el-menu-item index="proSetting" @click="to('proSetting')">④ 扩展设置</el-menu-item>
       </el-menu> -->
       <div class="publish">
-        <el-button size="mini" @click="preview"><i class="el-icon-view"></i>预览</el-button>
-        <el-button size="mini" type="primary" @click="publish"><i class="el-icon-s-promotion"></i>发布</el-button>
+        <!-- <el-button size="mini" @click="preview"><i class="el-icon-view"></i>预览</el-button> -->
+        <el-button size="mini" type="primary" @click="publish"><i class="el-icon-s-promotion"></i>提交</el-button>
       </div>
       <div class="back">
         <el-button @click="exit" size="medium" icon="el-icon-arrow-left" circle></el-button>
         <span>
-          <i :class="setup.logo.icon" :style="'background:' + setup.logo.background"></i>
-          <span>{{ setup.formName }}</span>
+          <!-- <i :class="setup.logo.icon" :style="'background:' + setup.logo.background"></i> -->
+          <span style="margin-left: 10px;">{{ setup.formName }}</span>
         </span>
       </div>
     </div>

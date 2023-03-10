@@ -24,32 +24,42 @@ export default {
     nodeMap(){
       return this.$store.state.nodeMap;
     },
+    // 流程结构数据
     dom(){
       return this.$store.state.design.process;
     }
   },
   render(h,) {
-    console.log("渲染流程树")
+    // console.log("渲染流程树")
     this.nodeMap.clear()
-    console.log(h,this.dom)
+
     let processTrees = this.getDomTree(h, this.dom)
     console.log(processTrees)
+
     //插入末端节点
     processTrees.push(h('div', {style:{'text-align': 'center'}}, [
       h('div', {class:{'process-end': true}, domProps: {innerHTML:'流程结束'}})
     ]))
+
     return h('div', {class:{'_root': true}, ref:'_root'}, processTrees)
   },
   methods: {
     getDomTree(h, node) {
+
       this.toMapping(node);
+      // node.type === 'ROOT' || node.type === 'APPROVAL' || node.type === 'CC' 
+      // || node.type === 'DELAY' || node.type === 'TRIGGER'
       if (this.isPrimaryNode(node)){
         //普通业务节点
         let childDoms = this.getDomTree(h, node.children)
         console.log(childDoms)
+
         this.decodeAppendDom(h, node, childDoms)
+        console.log(childDoms)
+
         return [h('div', {'class':{'primary-node': true}}, childDoms)];
-      }else if (this.isBranchNode(node)){
+      }else if (this.isBranchNode(node)){ // node.type === 'CONDITIONS' || node.type === 'CONCURRENTS'
+        console.log('22')
         let index = 0;
         //遍历分支节点，包含并行及条件节点
         let branchItems = node.branchs.map(branchNode => {
@@ -76,12 +86,15 @@ export default {
         //继续遍历分支后的节点
         let afterChildDoms = this.getDomTree(h, node.children)
         return [h('div', {}, [bchDom, afterChildDoms])]
-      }else if (this.isEmptyNode(node)){
+      }else if (this.isEmptyNode(node)){ // node.type === 'EMPTY'
+      
+        console.log('33')
         //空节点，存在于分支尾部
         let childDoms = this.getDomTree(h, node.children)
         this.decodeAppendDom(h, node, childDoms)
         return [h('div', {'class':{'empty-node': true}}, childDoms)];
       }else {
+        console.log('44')
         //遍历到了末端，无子节点
         return [];
       }
@@ -89,6 +102,8 @@ export default {
     //解码渲染的时候插入dom到同级
     decodeAppendDom(h, node, dom, props = {}){
       props.config = node
+      console.log('123123',node.type)
+      // 通过node.type对应找到组件，通过《h》函数生成节点   添加到数组
       dom.unshift(h(node.type.toLowerCase(), {
         props: props,
         ref: node.id,
@@ -107,7 +122,6 @@ export default {
     //id映射到map，用来向上遍历
     toMapping(node){
       if (node && node.id){
-        //console.log("node=> " + node.id + " name:" + node.name + " type:" + node.type)
         this.nodeMap.set(node.id, node)
       }
     },
@@ -177,6 +191,7 @@ export default {
     },
     //处理节点插入逻辑
     insertNode(type, parentNode){
+      console.log(type, parentNode)
       this.$refs['_root'].click()
       //缓存一下后面的节点
       let afterNode = parentNode.children
@@ -208,6 +223,7 @@ export default {
         }
         this.$set(parentNode.children, 'children', afterNode)
       }
+      console.log(parentNode)
       this.$forceUpdate()
     },
     insertApprovalNode(parentNode){

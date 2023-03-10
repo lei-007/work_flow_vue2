@@ -1,25 +1,25 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header style="background: white">
+      <!-- <el-header style="background: white">
         <LayoutHeader  @publish="publishProcess" @preview="preview"></LayoutHeader>
-      </el-header>
-      <div class="layout-body">
+      </el-header> -->
+      <!-- <div class="layout-body"> -->
         <ProcessTree />
-      </div>
+      <!-- </div> -->
     </el-container>
   </div>
 </template>
 
 <script>
 import ProcessTree from './views/index.vue'
-import LayoutHeader from './components/header/LayoutHeader.vue'
+// import LayoutHeader from './components/header/LayoutHeader.vue'
 
 export default {
   name: 'App',
   components: {
     ProcessTree,
-    LayoutHeader
+    // LayoutHeader
   },
   data(){
     return{
@@ -35,24 +35,27 @@ export default {
     setup() {
       return this.$store.state.design
     },
-    errTitle(){
-      if (this.validResult.finished && !this.validResult.success){
-        return this.validResult.title + ` (${this.validResult.errs.length}项错误) 😥`
-      }
-      return this.validResult.title
-    },
-    validIcon() {
-      if (!this.validResult.finished) {
-        return 'el-icon-loading'
-      } else if (this.validResult.success) {
-        return 'success'
-      } else {
-        return 'warning'
-      }
-    }
+    // errTitle(){
+    //   if (this.validResult.finished && !this.validResult.success){
+    //     return this.validResult.title + ` (${this.validResult.errs.length}项错误) 😥`
+    //   }
+    //   return this.validResult.title
+    // },
+    // validIcon() {
+    //   if (!this.validResult.finished) {
+    //     return 'el-icon-loading'
+    //   } else if (this.validResult.success) {
+    //     return 'success'
+    //   } else {
+    //     return 'warning'
+    //   }
+    // }
   },
   created() {
     this.loadInitFrom()
+    document.getElementById(window.workflow.id).getData = () =>{
+      this.doPublish()
+    }
   },
   beforeDestroy() {
     this.stopTimer()
@@ -113,43 +116,43 @@ export default {
       //   }
       // }, 300)
     },
-    getDefaultValidErr() {
-      switch (this.validStep) {
-        case 0:
-          return '请检查基础设置项';
-        case 1:
-          return '请检查审批表单相关设置'
-        case 2:
-          return '请检查审批流程，查看对应标注节点错误信息'
-        case 3:
-          return '请检查扩展设置'
-        default:
-          return '未知错误'
-      }
-    },
-    showValidFinish(success, err) {
-      this.validResult.success = success
-      this.validResult.finished = true
-      this.validResult.title = success ? '校验完成 😀' : '校验失败 '
-      this.validResult.desc = success ? '设置项校验成功，是否提交？' : err
-      this.validResult.action = success ? '提 交' : '去修改'
-    },
-    showValiding() {
-      this.validResult = {
-        errs: [],
-        finished: false,
-        success: false,
-        title: '检查中...',
-        action: '处理',
-        desc: '正在检查设置项'
-      }
-      this.validStep = 0
-      this.validOptions.forEach(op => {
-        op.status = ''
-        op.icon = ''
-        op.description = ''
-      })
-    },
+    // getDefaultValidErr() {
+    //   switch (this.validStep) {
+    //     case 0:
+    //       return '请检查基础设置项';
+    //     case 1:
+    //       return '请检查审批表单相关设置'
+    //     case 2:
+    //       return '请检查审批流程，查看对应标注节点错误信息'
+    //     case 3:
+    //       return '请检查扩展设置'
+    //     default:
+    //       return '未知错误'
+    //   }
+    // },
+    // showValidFinish(success, err) {
+    //   this.validResult.success = success
+    //   this.validResult.finished = true
+    //   this.validResult.title = success ? '校验完成 😀' : '校验失败 '
+    //   this.validResult.desc = success ? '设置项校验成功，是否提交？' : err
+    //   this.validResult.action = success ? '提 交' : '去修改'
+    // },
+    // showValiding() {
+    //   this.validResult = {
+    //     errs: [],
+    //     finished: false,
+    //     success: false,
+    //     title: '检查中...',
+    //     action: '处理',
+    //     desc: '正在检查设置项'
+    //   }
+    //   this.validStep = 0
+    //   this.validOptions.forEach(op => {
+    //     op.status = ''
+    //     op.icon = ''
+    //     op.description = ''
+    //   })
+    // },
     doAfter() {
       // if (this.validResult.success) {
         this.doPublish()
@@ -170,12 +173,12 @@ export default {
       this.validateDesign()
     },
     doPublish() {
-      this.$confirm('如果您只想预览请选择预览，确认发布后流程立即生效，是否继续?', '提示', {
-        confirmButtonText: '发布',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        console.log(this.setup)
+      // this.$confirm('如果您只想预览请选择预览，确认发布后流程立即生效，是否继续?', '提示', {
+      //   confirmButtonText: '发布',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+      //   console.log(this.setup)
         let template = {
           formId: this.setup.formId,
           formName: this.setup.formName,
@@ -186,24 +189,25 @@ export default {
           process: JSON.stringify(this.setup.process),
           remark: this.setup.remark
         }
-        console.log(this.setup.process)
-        if (this.isNew || !this.$isNotEmpty(this.setup.formId)) {
-          console.log(template)
+        // console.log(this.setup.process)
+       return template
+
+        // if (this.isNew || !this.$isNotEmpty(this.setup.formId)) {
           // createForm(template).then(rsp => {
           //   this.$message.success("创建表单成功")
           //   this.$router.push("/formsPanel")
           // }).catch(err => {
           //   this.$message.error(err)
           // })
-        } else {
+        // } else {
           // updateFormDetail(template).then(rsp => {
           //   this.$message.success("更新表单成功")
           //   this.$router.push("/formsPanel")
           // }).catch(err => {
           //   this.$message.error(err)
           // })
-        }
-      })
+        // }
+      // })
     }
   }
 }
@@ -233,10 +237,10 @@ export default {
 		}
 	}
 
-  .layout-body {
-  min-width: 980px;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
-}
+//   .layout-body {
+//   min-width: 980px;
+//   height: calc(100vh - 60px);
+//   overflow-y: scroll;
+// }
 </style>
 
