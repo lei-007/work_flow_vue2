@@ -1,8 +1,7 @@
 <template>
   <div style="margin-top: 10px">
-    <el-tag class="org-item" :type="org.type === 'dept'?'':'info'"
-            v-for="(org, index) in _value" :key="index + '_org'"
-            closable size="mini" @close="removeOrgItem(index)">
+    <el-tag class="org-item" :type="org.type === 'dept' ? '' : 'info'" v-for="(org, index) in _value" :key="index + '_org'"
+      closable size="mini" @close="removeOrgItem(index)">
       {{ org.name }}
     </el-tag>
   </div>
@@ -42,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.org-item{
+.org-item {
   margin: 5px;
 }
 </style>

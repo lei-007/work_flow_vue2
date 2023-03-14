@@ -4,25 +4,22 @@
       <el-button icon="el-icon-plus" size="small" @click="scale += 10" :disabled="scale >= 150" circle></el-button>
       <span>{{ scale }}%</span>
       <el-button icon="el-icon-minus" size="small" @click="scale -= 10" :disabled="scale <= 40" circle></el-button>
-<!--      <el-button @click="validate">校验流程</el-button>-->
     </div>
-    <div class="design" :style="'transform: scale('+ scale / 100 +');'">
-      <process-tree ref="process-tree" @selectedNode="nodeSelected"/>
+    <div class="design" :style="'transform: scale(' + scale / 100 + ');'">
+      <process-tree ref="process-tree" @selectedNode="nodeSelected" />
     </div>
-    <el-drawer :title="selectedNode.name" :visible.sync="showConfig"
-               :modal-append-to-body="false"
-               :size="selectedNode.type === 'CONDITION' ? '600px':'500px'"
-               direction="rtl" :modal="false" destroy-on-close>
+    <el-drawer :title="selectedNode.name" :visible.sync="showConfig" :modal-append-to-body="false"
+      :size="selectedNode.type === 'CONDITION' ? '600px' : '500px'" direction="rtl" :modal="false" destroy-on-close>
       <div slot="title">
-        <el-input v-model="selectedNode.name" size="medium" v-show="showInput"
-                  style="width: 300px" @blur="showInput = false"></el-input>
+        <el-input v-model="selectedNode.name" size="medium" v-show="showInput" style="width: 300px"
+          @blur="showInput = false"></el-input>
         <el-link v-show="!showInput" @click="showInput = true" style="font-size: medium">
           <i class="el-icon-edit" style="margin-right: 10px"></i>
-          {{selectedNode.name}}
+          {{ selectedNode.name }}
         </el-link>
       </div>
       <div class="node-config-content">
-        <node-config/>
+        <node-config />
       </div>
     </el-drawer>
   </el-main>
@@ -34,7 +31,7 @@ import NodeConfig from '@/components/processNodeConfig/NodeConfig.vue'
 
 export default {
   name: "ProcessDesign",
-  components: {ProcessTree, NodeConfig},
+  components: { ProcessTree, NodeConfig },
   data() {
     return {
       scale: 100,
@@ -43,30 +40,17 @@ export default {
       showConfig: false
     }
   },
-  computed:{
-    selectedNode(){
+  computed: {
+    selectedNode() {
       return this.$store.state.selectedNode
     }
   },
 
   methods: {
-    validate(){
-      return this.$refs["process-tree"].validateProcess()
-    },
-    nodeSelected(node){
-      console.log('配置节点', node)
+    nodeSelected() {
       this.showConfig = true
     }
   },
-  watch:{
-    /*selectedNode:{
-      deep: true,
-      handler(node){
-        console.log("更新")
-        this.$refs["process-tree"].nodeDomUpdate(node)
-      }
-    }*/
-  }
 }
 </script>
 
@@ -91,11 +75,11 @@ export default {
   }
 }
 
-.node-config-content{
+.node-config-content {
   padding: 0 20px 20px;
 }
 
-/deep/ .el-drawer__body{
+/deep/ .el-drawer__body {
   overflow-y: auto;
 }
 </style>

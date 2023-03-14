@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import workFlow from './App.vue'
 import store from './store'
 require('@/utils/CustomUtil')
 
@@ -12,18 +12,17 @@ import "@/assets/iconfont/iconfont.css"
 
 import Ellipsis from '@/components/common/Ellipsis'
 import WDialog from '@/components/common/WDialog'
-import Tip from '@/components/common/Tip'
+// import Tip from '@/components/common/Tip'
 
 window.workflow = {
-  init(id) {
-    window.workflow.id = id.split('#')[1]
+  init() {
     Vue.use(ElementUI);
     Vue.use(Ellipsis);
     Vue.use(WDialog);
-    Vue.use(Tip);
+    // Vue.use(Tip);
     Vue.config.productionTip = false
     
-    Vue.prototype.BASE_URL = 'http://' + (process.env.NODE_ENV === 'development-' ? "localhost" : "150.158.162.224");
+    // Vue.prototype.BASE_URL = 'http://' + (process.env.NODE_ENV === 'development-' ? "localhost" : "150.158.162.224");
     
     Vue.prototype.$isNotEmpty = function(obj){
       return (obj !== undefined && obj !== null && obj !== '' && obj !== 'null')
@@ -37,7 +36,9 @@ window.workflow = {
     
     new Vue({
       store,
-      render: h => h(App),
-    }).$mount(id)
+      render: h => h(workFlow),
+    }).$mount('#workFlow')
   }
 }
+
+// window.workflow.init()

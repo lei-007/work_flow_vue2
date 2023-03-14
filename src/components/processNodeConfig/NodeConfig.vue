@@ -2,13 +2,13 @@
   <div>
     <el-tabs v-model="active" v-if="name && formConfig.length > 0">
       <el-tab-pane :label="name" name="properties">
-        <component :is="(selectNode.type||'').toLowerCase()" :config="selectNode.props"/>
+        <component :is="(selectNode.type || '').toLowerCase()" :config="selectNode.props" />
       </el-tab-pane>
       <el-tab-pane label="表单权限设置" name="permissions">
-        <form-authority-config/>
+        <form-authority-config />
       </el-tab-pane>
     </el-tabs>
-    <component :is="(selectNode.type||'').toLowerCase()" v-else :config="selectNode.props"/>
+    <component :is="(selectNode.type || '').toLowerCase()" v-else :config="selectNode.props" />
   </div>
 </template>
 
@@ -61,6 +61,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

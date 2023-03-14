@@ -1,7 +1,6 @@
 <template>
-  <el-dialog custom-class="custom-dialog" class="border" :width="width" :title="title"
-             append-to-body :close-on-click-modal="clickClose"
-             :destroy-on-close="closeFree" :visible.sync="_value">
+  <el-dialog custom-class="custom-dialog" class="border" :width="width" :title="title" append-to-body
+    :close-on-click-modal="clickClose" :destroy-on-close="closeFree" :visible.sync="_value">
     <slot></slot>
     <div slot="footer" v-if="showFooter">
       <el-button size="mini" @click="_value = false; $emit('cancel')">{{ cancelText }}</el-button>
@@ -50,7 +49,7 @@ export default {
       type: String,
       default: '确 定'
     },
-    border:{
+    border: {
       type: Boolean,
       default: true
     }
@@ -76,12 +75,15 @@ export default {
 /deep/ .custom-dialog {
   .el-dialog__header {
     padding: 10px 20px;
-    .el-dialog__title{
+
+    .el-dialog__title {
       font-size: 17px;
     }
-    .el-dialog__headerbtn{
+
+    .el-dialog__headerbtn {
       top: 15px;
-      .i{
+
+      .i {
         font-size: large;
       }
     }
@@ -92,12 +94,12 @@ export default {
   }
 }
 
- .border {
-   /deep/ .el-dialog__header {
+.border {
+  /deep/ .el-dialog__header {
     border-bottom: 1px solid #e8e8e8;
   }
-   /deep/ .el-dialog__footer {
+
+  /deep/ .el-dialog__footer {
     border-top: 1px solid #e8e8e8;
   }
-}
-</style>
+}</style>

@@ -3,8 +3,8 @@
     <div class="picker">
       <div class="candidate" v-loading="loading">
         <div v-if="type !== 'role'">
-          <el-input v-model="search" @input="searchUser" style="width: 95%;" size="small"
-                    clearable placeholder="搜索人员，支持拼音、姓名" prefix-icon="el-icon-search"/>
+          <el-input v-model="search" @input="searchUser" style="width: 95%;" size="small" clearable
+            placeholder="搜索人员，支持拼音、姓名" prefix-icon="el-icon-search" />
           <div v-show="!showUsers">
             <ellipsis hoverTip style="height: 18px; color: #8c8c8c; padding: 5px 0 0" :row="1" :content="deptStackStr">
               <i slot="pre" class="el-icon-office-building"></i>
@@ -18,20 +18,20 @@
         <div class="role-header" v-else>
           <div>系统角色</div>
         </div>
-        <div class="org-items" :style="type === 'role' ? 'height: 350px':''">
-          <el-empty :image-size="100" description="似乎没有数据" v-show="orgs.length === 0"/>
+        <div class="org-items" :style="type === 'role' ? 'height: 350px' : ''">
+          <el-empty :image-size="100" description="似乎没有数据" v-show="orgs.length === 0" />
           <div v-for="(org, index) in orgs" :key="index" :class="orgItemClass(org)" @click="selectChange(org)">
             <el-checkbox v-model="org.selected" :disabled="disableDept(org)"></el-checkbox>
             <div v-if="org.type === 'dept'">
               <i class="el-icon-folder-opened"></i>
               <span class="name">{{ org.name }}</span>
-              <span @click.stop="nextNode(org)" :class="`next-dept${org.selected ? '-disable':''}`">
+              <span @click.stop="nextNode(org)" :class="`next-dept${org.selected ? '-disable' : ''}`">
                 <i class="iconfont icon-map-site"></i>下级
               </span>
             </div>
             <div v-else-if="org.type === 'user'" style="display: flex; align-items: center">
-              <el-avatar :size="35" :src="org.avatar" v-if="$isNotEmpty(org.avatar)"/>
-              <span v-else class="avatar">{{getShortName(org.name)}}</span>
+              <el-avatar :size="35" :src="org.avatar" v-if="$isNotEmpty(org.avatar)" />
+              <span v-else class="avatar">{{ getShortName(org.name) }}</span>
               <span class="name">{{ org.name }}</span>
             </div>
             <div style="display: inline-block" v-else>
@@ -47,15 +47,15 @@
           <span @click="clearSelected">清空</span>
         </div>
         <div class="org-items" style="height: 350px;">
-          <el-empty :image-size="100" description="请点击左侧列表选择数据" v-show="select.length === 0"/>
-          <div v-for="(org, index) in select" :key="index" :class="orgItemClass(org)" >
+          <el-empty :image-size="100" description="请点击左侧列表选择数据" v-show="select.length === 0" />
+          <div v-for="(org, index) in select" :key="index" :class="orgItemClass(org)">
             <div v-if="org.type === 'dept'">
               <i class="el-icon-folder-opened"></i>
               <span style="position: static" class="name">{{ org.name }}</span>
             </div>
             <div v-else-if="org.type === 'user'" style="display: flex; align-items: center">
-              <el-avatar :size="35" :src="org.avatar" v-if="$isNotEmpty(org.avatar)"/>
-              <span v-else class="avatar">{{getShortName(org.name)}}</span>
+              <el-avatar :size="35" :src="org.avatar" v-if="$isNotEmpty(org.avatar)" />
+              <span v-else class="avatar">{{ getShortName(org.name) }}</span>
               <span class="name">{{ org.name }}</span>
             </div>
             <div v-else>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import {getOrgTree, getUserByName} from '@/api/org'
+// import { getOrgTree, getUserByName } from '@/api/org'
 
 export default {
   name: "OrgPicker",
@@ -117,7 +117,7 @@ export default {
     orgs() {
       return !this.search || this.search.trim() === '' ? this.nodes : this.searchUsers
     },
-    showUsers(){
+    showUsers() {
       return this.search || this.search.trim() !== ''
     }
   },
@@ -127,7 +127,7 @@ export default {
       this.init()
       this.getOrgList()
     },
-    orgItemClass(org){
+    orgItemClass(org) {
       return {
         'org-item': true,
         'org-dept-item': org.type === 'dept',
@@ -140,14 +140,22 @@ export default {
     },
     getOrgList() {
       this.loading = true
-      getOrgTree({deptId: this.nowDeptId, type: this.type}).then(rsp => {
-        this.loading = false
-        this.nodes = rsp.data
-        this.selectToLeft()
-      }).catch(err => {
-        this.loading = false
-        this.$message.error(err.response.data)
-      })
+      if(window.workflow.getPeoples){
+        this.nodes = window.workflow.getPeoples('',this.nowDeptId, this.type)
+        this.selectToLeft()    
+      }else{
+        this.$message.error('未传获取人员方法')
+      }
+      this.loading = false
+
+      // getOrgTree({ deptId: this.nowDeptId, type: this.type }).then(rsp => {
+      //   this.loading = false
+      //   this.nodes = rsp.data
+      //   this.selectToLeft()
+      // }).catch(err => {
+      //   this.loading = false
+      //   this.$message.error(err.response.data)
+      // })
     },
     getShortName(name) {
       if (name) {
@@ -159,14 +167,23 @@ export default {
       let userName = this.search.trim()
       this.searchUsers = []
       this.loading = true
-      getUserByName({userName: userName}).then(rsp => {
-        this.loading = false
-        this.searchUsers = rsp.data
+
+      if(window.workflow.getPeoples){
+        this.searchUsers = window.workflow.getPeoples(userName)
         this.selectToLeft()
-      }).catch(() => {
-        this.loading = false
-        this.$message.error("接口异常")
-      })
+      }else{
+        this.$message.error('未传获取人员方法')
+      }
+      this.loading = false
+
+      // getUserByName({ userName: userName }).then(rsp => {
+      //   this.loading = false
+      //   this.searchUsers = rsp.data
+      //   this.selectToLeft()
+      // }).catch(() => {
+      //   this.loading = false
+      //   this.$message.error("接口异常")
+      // })
     },
     selectToLeft() {
       let nodes = this.search.trim() === '' ? this.nodes : this.searchUsers;
@@ -277,7 +294,7 @@ export default {
       this.visible = false
       this.recover()
     },
-    clearSelected(){
+    clearSelected() {
       this.$confirm('您确定要清空已选中的项?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -303,10 +320,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 @containWidth: 278px;
 
-.candidate, .selected {
+.candidate,
+.selected {
   position: absolute;
   display: inline-block;
   width: @containWidth;
@@ -318,21 +335,23 @@ export default {
   height: 402px;
   position: relative;
   text-align: left;
+
   .candidate {
     left: 0;
     top: 0;
 
-    .role-header{
+    .role-header {
       padding: 10px !important;
       margin-bottom: 5px;
       border-bottom: 1px solid #e8e8e8;
     }
 
-    .top-dept{
+    .top-dept {
       margin-left: 20px;
       cursor: pointer;
-      color:#38adff;
+      color: #38adff;
     }
+
     .next-dept {
       float: right;
       color: @theme-primary;
@@ -345,7 +364,7 @@ export default {
       cursor: not-allowed;
     }
 
-    & > div:first-child {
+    &>div:first-child {
       padding: 5px 10px;
     }
 
@@ -366,13 +385,14 @@ export default {
       cursor: pointer;
       font-size: larger;
     }
+
     .org-dept-item {
       padding: 10px 5px;
 
-      & > div {
+      &>div {
         display: inline-block;
 
-        & > span:last-child {
+        &>span:last-child {
           position: absolute;
           right: 5px;
         }
@@ -390,7 +410,7 @@ export default {
       align-items: center;
       padding: 5px;
 
-      & > div {
+      &>div {
         display: inline-block;
       }
 
@@ -433,7 +453,8 @@ export default {
     display: inline-block;
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 5px;
-    & > span:nth-child(2) {
+
+    &>span:nth-child(2) {
       float: right;
       color: #c75450;
       cursor: pointer;
@@ -445,7 +466,7 @@ export default {
   padding: 10px 20px;
 }
 
-.disabled{
+.disabled {
   cursor: not-allowed !important;
   color: #8c8c8c !important;
 }
@@ -460,5 +481,4 @@ export default {
 ::-webkit-scrollbar-thumb {
   border-radius: 16px;
   background-color: #efefef;
-}
-</style>
+}</style>

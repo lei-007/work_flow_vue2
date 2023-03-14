@@ -5,8 +5,8 @@
     <div class="option">
       <el-checkbox label="允许发起人添加抄送人" v-model="config.shouldAdd"></el-checkbox>
     </div>
-    <org-items v-model="select"/>
-    <org-picker multiple ref="orgPicker" :selected="select" @ok="selected"/>
+    <org-items v-model="select" />
+    <org-picker multiple ref="orgPicker" :selected="select" @ok="selected" />
   </div>
 </template>
 
@@ -16,21 +16,21 @@ import OrgItems from "@/components/processTree/OrgItems.vue";
 
 export default {
   name: "CcNodeConfig.vue",
-  components: {OrgPicker, OrgItems},
-  props:{
-    config:{
+  components: { OrgPicker, OrgItems },
+  props: {
+    config: {
       type: Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     }
   },
-  computed:{
+  computed: {
     select: {
-      get(){
+      get() {
         return this.config.assignedUser || []
       },
-      set(val){
+      set(val) {
         // eslint-disable-next-line vue/no-mutating-props
         this.config.assignedUser = val
       }
@@ -47,7 +47,7 @@ export default {
       console.log(select)
       this.select = Object.assign([], select)
     },
-    removeOrgItem(index){
+    removeOrgItem(index) {
       this.select.splice(index, 1)
     }
   }
@@ -55,17 +55,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.option{
+.option {
   color: #606266;
   margin-top: 20px;
   font-size: small;
 }
 
-.desc{
+.desc {
   font-size: small;
   color: #8c8c8c;
 }
-.org-item{
+
+.org-item {
   margin: 5px;
 }
 </style>

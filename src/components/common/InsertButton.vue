@@ -26,7 +26,7 @@
         <span>触发器</span>
       </div>
     </div>
-    <el-button icon="el-icon-plus" slot="reference" type="primary" size="small" circle></el-button>
+    <el-button v-if="isShowAdd" icon="el-icon-plus" slot="reference" type="primary" size="small" circle></el-button>
   </el-popover>
 </template>
 
@@ -35,31 +35,40 @@ export default {
   name: "InsertButton",
   components: {},
   data() {
-    return {}
+    return {
+      isShowAdd: null
+    }
   },
-  computed:{
+  created() {
+     if(window.workflow.infoStatus && window.workflow.infoStatus === 'view'){
+      this.isShowAdd = false
+     }else{
+      this.isShowAdd = true
+     }
+  },
+  computed: {
     // eslint-disable-next-line vue/return-in-computed-property
-    selectedNode(){
+    selectedNode() {
       this.$store.state.selectedNode
     }
   },
   methods: {
-    addApprovalNode(){
+    addApprovalNode() {
       this.$emit('insertNode', "APPROVAL")
     },
-    addCcNode(){
+    addCcNode() {
       this.$emit('insertNode', "CC")
     },
-    addDelayNode(){
+    addDelayNode() {
       this.$emit('insertNode', "DELAY")
     },
-    addConditionsNode(){
+    addConditionsNode() {
       this.$emit('insertNode', "CONDITIONS")
     },
-    addConcurrentsNode(){
+    addConcurrentsNode() {
       this.$emit('insertNode', "CONCURRENTS")
     },
-    addTriggerNode(){
+    addTriggerNode() {
       this.$emit('insertNode', "TRIGGER")
     }
   }
@@ -67,8 +76,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.node-select{
-  div{
+.node-select {
+  div {
     display: inline-block;
     margin: 5px 5px;
     cursor: pointer;
@@ -78,21 +87,23 @@ export default {
     border-radius: 10px;
     width: 130px;
     position: relative;
-    span{
+
+    span {
       position: absolute;
       left: 65px;
       top: 18px;
     }
-    &:hover{
+
+    &:hover {
       background-color: #fff;
       box-shadow: 0 0 8px 2px #d6d6d6;
     }
-    i{
+
+    i {
       font-size: 25px;
       padding: 5px;
       border: 1px solid #dedfdf;
       border-radius: 14px;
     }
   }
-}
-</style>
+}</style>

@@ -1,12 +1,12 @@
 <template>
-  <div :class="{'node': true, 'node-error-state': showError}">
-    <div :class="{'node-body': true, 'error': showError}">
+  <div :class="{ 'node': true, 'node-error-state': showError }">
+    <div :class="{ 'node-body': true, 'error': showError }">
       <div class="node-body-left" @click="$emit('leftMove')" v-if="level > 1">
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="node-body-main" @click="$emit('selected')">
         <div class="node-body-main-header">
-          <ellipsis class="title" hover-tip :content="config.name ? config.name : ('条件' + level)"/>
+          <ellipsis class="title" hover-tip :content="config.name ? config.name : ('条件' + level)" />
           <span class="level">优先级{{ level }}</span>
           <span class="option">
             <el-tooltip effect="dark" content="复制条件" placement="top">
@@ -17,7 +17,7 @@
         </div>
         <div class="node-body-main-content">
           <span class="placeholder" v-if="(content || '').trim() === ''">{{ placeholder }}</span>
-          <ellipsis hoverTip :row="4" :content="content" v-else/>
+          <ellipsis hoverTip :row="4" :content="content" v-else />
         </div>
       </div>
       <div class="node-body-right" @click="$emit('rightMove')" v-if="level < size">
@@ -39,11 +39,11 @@
 
 <script>
 import InsertButton from '@/components/common/InsertButton.vue'
-import {ValueType} from '@/components/processNodeConfig/ComponentsConfigExport'
+import { ValueType } from '@/components/processNodeConfig/ComponentsConfigExport'
 const groupNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 export default {
   name: "ConditionNode",
-  components: {InsertButton},
+  components: { InsertButton },
   props: {
     config: {
       type: Object,
@@ -93,9 +93,9 @@ export default {
         })
         //根据子条件关系构建描述
         let subConditionsStr = String(subConditions)
-            .replaceAll(',', subConditions.length > 1 ?
-                (group.groupType === 'AND' ? ') 且 (' : ') 或 (') :
-                (group.groupType === 'AND' ? ' 且 ' : ' 或 '))
+          .replaceAll(',', subConditions.length > 1 ?
+            (group.groupType === 'AND' ? ') 且 (' : ') 或 (') :
+            (group.groupType === 'AND' ? ' 且 ' : ' 或 '))
         confitions.push(subConditions.length > 1 ? `(${subConditionsStr})` : subConditionsStr)
       })
       //构建最终描述
@@ -129,27 +129,27 @@ export default {
     //校验数据配置的合法性
     validate(err) {
       const props = this.config.props
-      if (props.groups.length <= 0){
+      if (props.groups.length <= 0) {
         this.showError = true
         this.errorInfo = '请设置分支条件'
         err.push(`${this.config.name} 未设置条件`)
-      }else {
+      } else {
         for (let i = 0; i < props.groups.length; i++) {
-          if (props.groups[i].cids.length === 0){
+          if (props.groups[i].cids.length === 0) {
             this.showError = true
             this.errorInfo = `请设置条件组${this.groupNames[i]}内的条件`
             err.push(`条件 ${this.config.name} 条件组${this.groupNames[i]}内未设置条件`)
             break
-          }else {
+          } else {
             let conditions = props.groups[i].conditions
             for (let ci = 0; ci < conditions.length; ci++) {
               let subc = conditions[ci]
-              if (subc.value.length === 0){
+              if (subc.value.length === 0) {
                 this.showError = true
-              }else {
+              } else {
                 this.showError = false
               }
-              if (this.showError){
+              if (this.showError) {
                 this.errorInfo = `请完善条件组${this.groupNames[i]}内的${subc.title}条件`
                 err.push(`条件 ${this.config.name} 条件组${this.groupNames[i]}内${subc.title}条件未完善`)
                 return false
@@ -165,8 +165,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-
 .node-error-state {
   .node-body {
     box-shadow: 0px 0px 5px 0px #F56C6C !important;
@@ -175,7 +173,8 @@ export default {
 
 .node {
   padding: 30px 55px 0;
-  width: 220px;
+  width: 330px;
+  box-sizing: border-box;
 
   .node-body {
     cursor: pointer;
@@ -187,7 +186,9 @@ export default {
     box-shadow: 0px 0px 5px 0px #d8d8d8;
 
     &:hover {
-      .node-body-left, .node-body-right {
+
+      .node-body-left,
+      .node-body-right {
         i {
           display: block !important;
         }
@@ -206,7 +207,8 @@ export default {
       box-shadow: 0px 0px 3px 0px @theme-primary;
     }
 
-    .node-body-left, .node-body-right {
+    .node-body-left,
+    .node-body-right {
       display: flex;
       align-items: center;
       position: absolute;
@@ -240,11 +242,12 @@ export default {
         padding: 10px 0px 5px;
         font-size: xx-small;
         position: relative;
+       
 
         .title {
           color: #15bca3;
           display: inline-block;
-          height: 14px;
+          height: 18px;
           width: 125px;
         }
 
@@ -259,6 +262,7 @@ export default {
           right: 0;
           display: none;
           font-size: medium;
+          margin-top: -4px;
 
           i {
             color: #888888;

@@ -19,7 +19,8 @@
       <span class="item-desc"> 后进入下一步</span>
     </div>
     <div class="item-desc" v-else>
-      <el-time-picker value-format="HH:mm:ss" style="width: 150px;" size="small" v-model="config.dateTime" placeholder="任意时间点"></el-time-picker>
+      <el-time-picker value-format="HH:mm:ss" style="width: 150px;" size="small" v-model="config.dateTime"
+        placeholder="任意时间点"></el-time-picker>
       <span class="item-desc"> 后进入下一步</span>
     </div>
   </div>
@@ -29,10 +30,10 @@
 export default {
   name: "DelayNodeConfig",
   components: {},
-  props:{
-    config:{
+  props: {
+    config: {
       type: Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     }
@@ -44,6 +45,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

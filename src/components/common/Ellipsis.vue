@@ -1,9 +1,7 @@
 <template>
-  <div :class="{'line': row === 1, 'lines': row > 1}"
-       :title="hoverTip ? content: null"
-       :style="{'--row':row}">
+  <div :class="{ 'line': row === 1, 'lines': row > 1 }" :title="hoverTip ? content : null" :style="{ '--row': row }">
     <slot name="pre"></slot>
-    {{content}}
+    {{ content }}
   </div>
 </template>
 
@@ -12,21 +10,21 @@
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Ellipsis",
-  install(Vue){
+  install(Vue) {
     // eslint-disable-next-line vue/multi-word-component-names
     Vue.component('ellipsis', this)
   },
   components: {},
-  props:{
+  props: {
     row: {
       type: Number,
       default: 1
     },
-    hoverTip:{
+    hoverTip: {
       type: Boolean,
       default: false
     },
-    content:{
+    content: {
       type: String,
       default: ''
     }
@@ -39,13 +37,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-.line{
+.line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.lines{
+
+.lines {
   display: -webkit-box;
   word-break: break-all;
   overflow: hidden;

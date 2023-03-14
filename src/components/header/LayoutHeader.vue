@@ -32,7 +32,7 @@
 
 export default {
   name: "LayoutHeader",
-  props:{
+  props: {
     value: {
       type: String,
       default: 'baseSetup'
@@ -110,7 +110,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
 /deep/ .header {
   min-width: 980px;
   position: relative;

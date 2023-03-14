@@ -7,7 +7,7 @@
         </el-radio-group>
         <div v-if="nodeProps.assignedType === 'ASSIGN_USER'">
           <el-button size="mini" icon="el-icon-plus" type="primary" @click="selectUser" round>选择人员</el-button>
-          <org-items v-model="nodeProps.assignedUser"/>
+          <org-items v-model="nodeProps.assignedUser" />
         </div>
         <div v-else-if="nodeProps.assignedType === 'SELF_SELECT'">
           <el-radio-group size="mini" v-model="nodeProps.selfSelect.multiple">
@@ -16,7 +16,7 @@
           </el-radio-group>
         </div>
         <div v-else-if="nodeProps.assignedType === 'LEADER_TOP'">
-          <el-divider/>
+          <el-divider />
           <el-form-item label="审批终点" prop="text" class="approve-end">
             <el-radio-group v-model="nodeProps.leaderTop.endCondition">
               <el-radio label="TOP">直到最上层主管</el-radio>
@@ -24,24 +24,23 @@
             </el-radio-group>
             <div class="approve-end-leave" v-if="nodeProps.leaderTop.endCondition === 'LEAVE'">
               <span>第 </span>
-              <el-input-number :min="1" :max="20" :step="1" size="mini" v-model="nodeProps.leaderTop.level"/>
+              <el-input-number :min="1" :max="20" :step="1" size="mini" v-model="nodeProps.leaderTop.level" />
               <span> 级主管</span>
             </div>
           </el-form-item>
         </div>
         <div v-else-if="nodeProps.assignedType === 'LEADER'">
-          <el-divider/>
+          <el-divider />
           <el-form-item label="指定主管" prop="text">
             <span>发起人的第 </span>
-            <el-input-number :min="1" :max="20" :step="1" size="mini"
-                             v-model="nodeProps.leader.level"></el-input-number>
+            <el-input-number :min="1" :max="20" :step="1" size="mini" v-model="nodeProps.leader.level"></el-input-number>
             <span> 级主管</span>
             <div style="color: #409EFF; font-size: small;">👉 直接主管为 第 1 级主管</div>
           </el-form-item>
         </div>
         <div v-else-if="nodeProps.assignedType === 'ROLE'">
           <el-button size="mini" icon="el-icon-plus" type="primary" @click="selectRole" round>选择系统角色</el-button>
-          <org-items v-model="nodeProps.role"/>
+          <org-items v-model="nodeProps.role" />
         </div>
         <div v-else-if="nodeProps.assignedType === 'FORM_USER'">
           <el-form-item label="选择表单联系人项" prop="text" class="approve-end">
@@ -67,13 +66,13 @@
 
         <div style="margin-top: 10px" v-if="nodeProps.nobody.handler === 'TO_USER'">
           <el-button size="mini" icon="el-icon-plus" type="primary" @click="selectNoSetUser" round>选择人员</el-button>
-          <org-items v-model="nodeProps.assignedUser"/>
+          <org-items v-model="nodeProps.assignedUser" />
         </div>
 
       </el-form-item>
 
       <div v-if="showMode">
-        <el-divider/>
+        <el-divider />
         <el-form-item label="👩‍👦‍👦 多人审批时审批方式" prop="text" class="approve-mode">
           <el-radio-group v-model="nodeProps.mode">
             <el-radio label="NEXT">会签 （按选择顺序审批，每个人必须同意）</el-radio>
@@ -92,7 +91,7 @@
       </el-form-item>
       <el-form-item label="⏱ 审批期限（为 0 则不生效）" prop="timeLimit">
         <el-input style="width: 180px;" placeholder="时长" size="small" type="number"
-                  v-model="nodeProps.timeLimit.timeout.value">
+          v-model="nodeProps.timeLimit.timeout.value">
           <el-select style="width: 75px;" v-model="nodeProps.timeLimit.timeout.unit" slot="append" placeholder="请选择">
             <el-option label="天" value="D"></el-option>
             <el-option label="小时" value="H"></el-option>
@@ -109,11 +108,11 @@
           <div style="color:#409EEF; font-size: small">默认提醒当前审批人</div>
           <el-switch inactive-text="循环" active-text="一次" v-model="nodeProps.timeLimit.handler.notify.once"></el-switch>
           <span style="margin-left: 20px" v-if="!nodeProps.timeLimit.handler.notify.once">
-							每隔
-							<el-input-number :min="0" :max="10000" :step="1" size="mini"
-                               v-model="nodeProps.timeLimit.handler.notify.hour"/>
-							小时提醒一次
-						</span>
+            每隔
+            <el-input-number :min="0" :max="10000" :step="1" size="mini"
+              v-model="nodeProps.timeLimit.handler.notify.hour" />
+            小时提醒一次
+          </span>
         </div>
       </el-form-item>
       <el-form-item label="🙅‍ 如果审批被驳回 👇">
@@ -124,7 +123,8 @@
         </el-radio-group>
         <div v-if="nodeProps.refuse.type === 'TO_NODE'">
           <span>指定节点:</span>
-          <el-select style="margin-left: 10px; width: 150px;" placeholder="选择跳转步骤" size="small" v-model="nodeProps.refuse.target">
+          <el-select style="margin-left: 10px; width: 150px;" placeholder="选择跳转步骤" size="small"
+            v-model="nodeProps.refuse.target">
             <el-option v-for="(node, i) in nodeOptions" :key="i" :label="node.name" :value="node.id"></el-option>
           </el-select>
         </div>
@@ -132,7 +132,7 @@
       </el-form-item>
     </el-form>
     <org-picker :title="pickerTitle" multiple :type="orgPickerType" ref="orgPicker" :selected="orgPickerSelected"
-                @ok="selected"/>
+      @ok="selected" />
   </div>
 </template>
 
@@ -142,7 +142,7 @@ import OrgItems from "@/components/processTree/OrgItems.vue";
 
 export default {
   name: "ApprovalNodeConfig",
-  components: {OrgPicker, OrgItems},
+  components: { OrgPicker, OrgItems },
   props: {
     config: {
       type: Object,
@@ -157,13 +157,13 @@ export default {
       orgPickerSelected: [],
       orgPickerType: 'user',
       approvalTypes: [
-        {name: '指定人员', type: 'ASSIGN_USER'},
-        {name: '发起人自选', type: 'SELF_SELECT'},
-        {name: '连续多级主管', type: 'LEADER_TOP'},
-        {name: '主管', type: 'LEADER'},
-        {name: '角色', type: 'ROLE'},
-        {name: '发起人自己', type: 'SELF'},
-        {name: '表单内联系人', type: 'FORM_USER'}
+        { name: '指定人员', type: 'ASSIGN_USER' },
+        { name: '发起人自选', type: 'SELF_SELECT' },
+        { name: '连续多级主管', type: 'LEADER_TOP' },
+        { name: '主管', type: 'LEADER' },
+        { name: '角色', type: 'ROLE' },
+        { name: '发起人自己', type: 'SELF' },
+        { name: '表单内联系人', type: 'FORM_USER' }
       ]
     }
   },
@@ -194,7 +194,7 @@ export default {
       const excType = ['ROOT', 'EMPTY', "CONDITION", "CONDITIONS", "CONCURRENT", "CONCURRENTS"]
       this.$store.state.nodeMap.forEach((v) => {
         if (excType.indexOf(v.type) === -1) {
-          values.push({id: v.id, name: v.name})
+          values.push({ id: v.id, name: v.name })
         }
       })
       return values

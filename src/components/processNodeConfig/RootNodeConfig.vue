@@ -2,8 +2,8 @@
   <div>
     <p class="desc">选择能发起该审批的人员/部门，不选则默认开放给所有人</p>
     <el-button size="mini" @click="selectOrg" icon="el-icon-plus" type="primary" round>请选择</el-button>
-    <org-items v-model="select"/>
-    <org-picker title="请选择可发起本审批的人员/部门" multiple ref="orgPicker" :selected="select" @ok="selected"/>
+    <org-items v-model="select" />
+    <org-picker title="请选择可发起本审批的人员/部门" multiple ref="orgPicker" :selected="select" @ok="selected" />
   </div>
 </template>
 
@@ -13,11 +13,11 @@ import OrgItems from "@/components/processTree/OrgItems.vue";
 
 export default {
   name: "RootConfig",
-  components: {OrgPicker, OrgItems},
-  props:{
-    config:{
+  components: { OrgPicker, OrgItems },
+  props: {
+    config: {
       type: Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     }
@@ -27,8 +27,8 @@ export default {
       showOrgSelect: false
     }
   },
-  computed:{
-    select(){
+  computed: {
+    select() {
       return this.config.assignedUser
     }
   },
@@ -40,7 +40,7 @@ export default {
       this.select.length = 0
       select.forEach(val => this.select.push(val))
     },
-    removeOrgItem(index){
+    removeOrgItem(index) {
       this.select.splice(index, 1)
     }
   }
@@ -48,11 +48,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.desc{
+.desc {
   font-size: small;
   color: #8c8c8c;
 }
-.org-item{
+
+.org-item {
   margin: 5px;
 }
 </style>

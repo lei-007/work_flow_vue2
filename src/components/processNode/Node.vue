@@ -103,8 +103,9 @@ export default {
   }
 }
 .node{
+  box-sizing: border-box;
   padding: 0 50px;
-  width: 220px;
+  width: 320px;
   position: relative;
   &:before{
     content: '';
@@ -136,18 +137,26 @@ export default {
       }
     }
     .node-body-header{
+      box-sizing: border-box;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
+      height: 28px;
       padding: 5px 15px;
       color: white;
       font-size: xx-small;
+      display: flex;
       .el-icon-close{
         display: none;
       }
+     
+      i{
+       line-height: 20px;
+      }
       .name{
-        height: 14px;
+        height: 18px;
+        line-height: 18px;
         width: 150px;
-        display: inline-block
+        display: inline-block;
       }
     }
     .node-body-content{

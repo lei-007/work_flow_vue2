@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-table :header-cell-style="{background:'#f5f6f6'}" :data="formPerms" border style="width: 100%">
+    <el-table :header-cell-style="{ background: '#f5f6f6' }" :data="formPerms" border style="width: 100%">
       <el-table-column prop="title" show-overflow-tooltip label="表单字段">
         <template slot-scope="scope">
-           <span v-if="scope.row.required" style="color: #c75450"> * </span>
+          <span v-if="scope.row.required" style="color: #c75450"> * </span>
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="readOnly" label="只读" width="80">
-        <template slot="header" >
+        <template slot="header">
           <el-radio label="R" v-model="permSelect" @change="allSelect('R')">只读</el-radio>
         </template>
         <template slot-scope="scope">
@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="editable" label="可编辑" width="90" v-if="nowNode.type !== 'CC'">
-        <template slot="header" >
+        <template slot="header">
           <el-radio label="E" v-model="permSelect" @change="allSelect('E')">可编辑</el-radio>
         </template>
         <template slot-scope="scope">
@@ -59,7 +59,7 @@ export default {
     this.formPermsLoad(oldPermMap, this.formData)
   },
   computed: {
-    nowNode(){
+    nowNode() {
       return this.$store.state.selectedNode
     },
     formData() {
@@ -81,11 +81,11 @@ export default {
         } else {
           //刷新名称
           let old = oldPermMap.get(form.id)
-          if (old){
+          if (old) {
             old.title = form.title
             old.required = form.props.required
             this.formPerms.push(old)
-          }else {
+          } else {
             this.formPerms.push({
               id: form.id,
               title: form.title,
@@ -114,9 +114,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 /deep/ .el-table__row {
-  & > td:first-child {
+  &>td:first-child {
     .cell {
       text-align: left;
     }

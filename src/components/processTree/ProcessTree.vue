@@ -30,11 +30,8 @@ export default {
     }
   },
   render(h,) {
-    // console.log("渲染流程树")
     this.nodeMap.clear()
-
     let processTrees = this.getDomTree(h, this.dom)
-    console.log(processTrees)
 
     //插入末端节点
     processTrees.push(h('div', {style:{'text-align': 'center'}}, [
@@ -52,14 +49,11 @@ export default {
       if (this.isPrimaryNode(node)){
         //普通业务节点
         let childDoms = this.getDomTree(h, node.children)
-        console.log(childDoms)
 
         this.decodeAppendDom(h, node, childDoms)
-        console.log(childDoms)
 
         return [h('div', {'class':{'primary-node': true}}, childDoms)];
       }else if (this.isBranchNode(node)){ // node.type === 'CONDITIONS' || node.type === 'CONCURRENTS'
-        console.log('22')
         let index = 0;
         //遍历分支节点，包含并行及条件节点
         let branchItems = node.branchs.map(branchNode => {
@@ -87,14 +81,11 @@ export default {
         let afterChildDoms = this.getDomTree(h, node.children)
         return [h('div', {}, [bchDom, afterChildDoms])]
       }else if (this.isEmptyNode(node)){ // node.type === 'EMPTY'
-      
-        console.log('33')
         //空节点，存在于分支尾部
         let childDoms = this.getDomTree(h, node.children)
         this.decodeAppendDom(h, node, childDoms)
         return [h('div', {'class':{'empty-node': true}}, childDoms)];
       }else {
-        console.log('44')
         //遍历到了末端，无子节点
         return [];
       }
@@ -102,7 +93,6 @@ export default {
     //解码渲染的时候插入dom到同级
     decodeAppendDom(h, node, dom, props = {}){
       props.config = node
-      console.log('123123',node.type)
       // 通过node.type对应找到组件，通过《h》函数生成节点   添加到数组
       dom.unshift(h(node.type.toLowerCase(), {
         props: props,
@@ -142,7 +132,6 @@ export default {
       branchNode.name = branchNode.name + '-copy'
       this.forEachNode(parentNode, branchNode, (parent, node) => {
         let id = this.getRandomId()
-        console.log(node, '新id =>'+ id, '老nodeId:' + node.id )
         node.id = id
         node.parentId = parent.id
       })
@@ -191,7 +180,6 @@ export default {
     },
     //处理节点插入逻辑
     insertNode(type, parentNode){
-      console.log(type, parentNode)
       this.$refs['_root'].click()
       //缓存一下后面的节点
       let afterNode = parentNode.children
@@ -223,7 +211,6 @@ export default {
         }
         this.$set(parentNode.children, 'children', afterNode)
       }
-      console.log(parentNode)
       this.$forceUpdate()
     },
     insertApprovalNode(parentNode){
@@ -314,7 +301,6 @@ export default {
     },
     //删除当前节点
     delNode(node){
-      console.log("删除节点", node)
       //获取该节点的父节点
       let parentNode = this.nodeMap.get(node.parentId)
       if (parentNode){
@@ -407,9 +393,6 @@ export default {
 
     }
   },
-  watch:{
-
-  }
 }
 </script>
 
@@ -418,7 +401,8 @@ export default {
  margin: 0 auto;
 }
 .process-end{
-  width: 60px;
+  box-sizing: border-box;
+  width: 80px;
   margin: 0 auto;
   margin-bottom: 20px;
   border-radius: 15px;

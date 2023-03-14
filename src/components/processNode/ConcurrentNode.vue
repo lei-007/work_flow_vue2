@@ -8,7 +8,7 @@
         <div class="node-body-main-header">
           <span class="title">
             <i class="el-icon-s-operation"></i>
-            <ellipsis class="name" hover-tip :content="config.name ? config.name:('并行任务' + level)"/>
+            <ellipsis class="name" hover-tip :content="config.name ? config.name : ('并行任务' + level)" />
           </span>
           <span class="option">
             <el-tooltip effect="dark" content="复制分支" placement="top">
@@ -38,20 +38,20 @@ import InsertButton from '@/components/common/InsertButton.vue'
 
 export default {
   name: "ConcurrentNode",
-  components: {InsertButton},
-  props:{
-    config:{
+  components: { InsertButton },
+  props: {
+    config: {
       type: Object,
       default: () => {
         return {}
       }
     },
-    level:{
+    level: {
       type: Number,
       default: 1
     },
     //条件数
-    size:{
+    size: {
       type: Number,
       default: 0
     }
@@ -66,12 +66,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-
-.node{
+.node {
   padding: 30px 55px 0;
-  width: 220px;
-  .node-body{
+  width: 330px;
+  box-sizing: border-box;
+
+  .node-body {
     overflow: hidden;
     cursor: pointer;
     min-height: 80px;
@@ -80,67 +80,89 @@ export default {
     border-radius: 5px;
     background-color: white;
     box-shadow: 0px 0px 5px 0px #d8d8d8;
-    &:hover{
-      .node-body-left, .node-body-right{
-        i{
+
+    &:hover {
+
+      .node-body-left,
+      .node-body-right {
+        i {
           display: block !important;
         }
       }
+
       .node-body-main {
-        .option{
+        .option {
           display: inline-block !important;
         }
       }
+
       box-shadow: 0px 0px 3px 0px @theme-primary;
     }
-    .node-body-left, .node-body-right{
+
+    .node-body-left,
+    .node-body-right {
       display: flex;
       align-items: center;
       position: absolute;
       height: 100%;
-      i{
+
+      i {
         display: none;
       }
-      &:hover{
+
+      &:hover {
         background-color: #ececec;
       }
     }
-    .node-body-left{
+
+    .node-body-left {
       left: 0;
     }
-    .node-body-right{
+
+    .node-body-right {
       right: 0;
     }
+
     .node-body-main {
       position: absolute;
       width: 188px;
       left: 17px;
       display: inline-block;
 
-      .node-body-main-header{
-        padding: 10px 0px 5px;
+      .node-body-main-header {
+        padding: 9px 0px 4px;
         font-size: xx-small;
         position: relative;
-        .title{
+
+        .title {
           color: #718dff;
-          .name{
+          display: flex;
+          align-items: center;
+
+          .name {
             display: inline-block;
-            height: 14px;
+            height: 18px;
+            line-height: 18px;
             width: 130px;
             margin-left: 2px;
           }
         }
-        .option{
+
+        .option {
           position: absolute;
+          top: 6px;
           right: 0;
           display: none;
           font-size: medium;
-          i{
+          // margin-top: -2px;
+
+          i {
             color: #888888;
             padding: 0 3px;
           }
         }
       }
+
       .node-body-main-content {
         padding: 6px;
         color: #656363;
@@ -156,19 +178,22 @@ export default {
     }
   }
 
-  .node-footer{
+  .node-footer {
     position: relative;
-    .btn{
+
+    .btn {
       width: 100%;
       display: flex;
       height: 70px;
       padding: 20px 0 32px;
       justify-content: center;
     }
-    /deep/ .el-button{
+
+    /deep/ .el-button {
       height: 32px;
     }
-    &::before{
+
+    &::before {
       content: "";
       position: absolute;
       top: 0;
@@ -182,5 +207,4 @@ export default {
       background-color: #CACACA;
     }
   }
-}
-</style>
+}</style>
